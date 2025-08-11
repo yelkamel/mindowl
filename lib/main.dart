@@ -1,30 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'screens/welcome_screen.dart';
-import 'screens/permission_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/mode_selection_screen.dart';
-import 'screens/listening_screen.dart';
-import 'screens/group_setup_screen.dart';
-import 'screens/exo_screen.dart';
-import 'screens/group_listening_screen.dart';
-import 'screens/profile_screen.dart';
-import 'screens/session_results_screen.dart';
-import 'screens/settings_screen.dart';
-import 'screens/knowledge_vault_screen.dart';
-import 'screens/quiz_flow_screen.dart';
-import 'screens/quiz_results_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mindowl/presentation/screen/exo/exo_screen.dart';
+import 'package:mindowl/presentation/screen/knowledgevault/knowledge_vault_screen.dart';
+import 'package:mindowl/presentation/screen/profile/profile_screen.dart';
+import 'package:mindowl/presentation/screen/quizflow/quizflow_screen.dart';
+import 'package:mindowl/repository/service/auth_repository.dart';
+import 'package:mindowl/repository/injection.dart';
+import 'presentation/screen/welcome/welcome_screen.dart';
+import 'presentation/oldscreens/permission_screen.dart';
+import 'presentation/screen/home/home_screen.dart';
+import 'presentation/oldscreens/mode_selection_screen.dart';
+import 'presentation/screen/listening/listening_screen.dart';
+import 'presentation/oldscreens/group_setup_screen.dart';
+import 'presentation/oldscreens/group_listening_screen.dart';
+import 'presentation/oldscreens/session_results_screen.dart';
+import 'presentation/oldscreens/settings_screen.dart';
+import 'presentation/oldscreens/quiz_results_screen.dart';
 
-void main() {
-  runApp(MindOwlApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  initRepository();
+  runApp(ProviderScope(child: MindOwlApp()));
 }
 
 class MindOwlApp extends StatelessWidget {
   MindOwlApp({super.key});
 
   final GoRouter _router = GoRouter(
-    initialLocation: '/welcome',
+    initialLocation: '/',
+    redirect: (context, state) {
+      final authRepository = AuthRepository();
+      final isLoggedIn = authRepository.isUserConnected;
+
+      if (state.fullPath == '/') {
+        return isLoggedIn ? '/home' : '/welcome';
+      }
+
+      return null;
+    },
     routes: [
+      GoRoute(path: '/', builder: (context, state) => const WelcomeScreen()),
       GoRoute(
         path: '/welcome',
         builder: (context, state) => const WelcomeScreen(),
@@ -46,10 +64,7 @@ class MindOwlApp extends StatelessWidget {
         path: '/group-setup',
         builder: (context, state) => const GroupSetupScreen(),
       ),
-      GoRoute(
-        path: '/exo',
-        builder: (context, state) => const ExoScreen(),
-      ),
+      GoRoute(path: '/exo', builder: (context, state) => const ExoScreen()),
       GoRoute(
         path: '/group-listening',
         builder: (context, state) => const GroupListeningScreen(),

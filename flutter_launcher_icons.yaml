@@ -1,0 +1,34 @@
+flutter_launcher_icons:
+  # Base source image for all platforms
+  image_path: "assets/logo.webp"
+
+  # ANDROID
+  android: "launcher_icon"
+  min_sdk_android: 21
+  # If you have properly separated layers, you can uncomment these:
+  # adaptive_icon_background: "#2D5B4A"
+  # adaptive_icon_foreground: "assets/logo.webp"
+
+  # iOS
+  ios: true
+  remove_alpha_ios: true
+  # background_color_ios: "#F5F2E8"
+
+  # Web
+  web:
+    generate: true
+    image_path: "assets/logo.webp"
+    background_color: "#F5F2E8"
+    theme_color: "#2D5B4A"
+
+  # Windows
+  windows:
+    generate: true
+    image_path: "assets/logo.webp"
+    icon_size: 256
+
+  # macOS
+  macos:
+    generate: truedart run flutter_launcher_icons
+
+    image_path: "assets/logo.webp"

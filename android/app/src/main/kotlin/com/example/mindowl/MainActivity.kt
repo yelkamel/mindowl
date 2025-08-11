@@ -1,4 +1,4 @@
-package com.example.mindowl
+package com.mindowl
 
 import io.flutter.embedding.android.FlutterActivity
 
