@@ -20,7 +20,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late Animation<double> _textFadeAnimation;
   late Animation<Offset> _textSlideAnimation;
 
-  late UserLoggedAnonymouslyUseCase _loginUseCase;
+  final UserLoggedAnonymouslyUseCase _loginUseCase =
+      UserLoggedAnonymouslyUseCase();
   bool _isLoading = false;
 
   @override
@@ -28,10 +29,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     super.initState();
 
     // Initialize use case
-    _loginUseCase = UserLoggedAnonymouslyUseCase(
-      AuthRepository(),
-      UserRepository(),
-    );
 
     // Brain animation controller
     _brainAnimationController = AnimationController(

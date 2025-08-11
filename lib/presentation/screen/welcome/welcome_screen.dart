@@ -13,17 +13,9 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  late UserLoggedAnonymouslyUseCase _loginUseCase;
+  final UserLoggedAnonymouslyUseCase _loginUseCase =
+      UserLoggedAnonymouslyUseCase();
   bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loginUseCase = UserLoggedAnonymouslyUseCase(
-      AuthRepository(),
-      UserRepository(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,8 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:layou_tools/layou_tools.dart';
 import 'package:mindowl/model/user.dart';
+import 'package:mindowl/repository/injection.dart';
 import 'package:mindowl/repository/service/auth_repository.dart';
 
 import 'package:mindowl/repository/database/user_repository.dart';
@@ -8,25 +10,22 @@ import 'package:mindowl/usecases/failure.dart';
 import 'package:mindowl/utils/log.dart';
 
 class UserLoggedAnonymouslyUseCase with MyLog {
-  final IAuthRepository _authRepository;
-  final IUserRepository _userRepository;
-
-  UserLoggedAnonymouslyUseCase(this._authRepository, this._userRepository);
+  UserLoggedAnonymouslyUseCase();
 
   Future<Either<UseCaseFailure, User>> call() async {
     try {
-      await _authRepository.loginUserAnonymously();
-      final uid = _authRepository.uid;
+      await authRepo.loginUserAnonymously();
+      final uid = authRepo.uid;
 
       if (uid.isEmpty) {
         loggy.error('Anonymous login succeeded but uid is empty');
         return left(UseCaseFailure('Authentication failed: Invalid user ID'));
       }
 
-      final exists = await _userRepository.userExists(uid);
+      final exists = await userRepo.userExists(uid);
 
       if (exists) {
-        final user = await _userRepository.getUser(uid);
+        final user = await userRepo.getUser(uid);
         if (user == null) {
           return left(
             UseCaseFailure('User document exists but could not be retrieved'),
@@ -35,6 +34,7 @@ class UserLoggedAnonymouslyUseCase with MyLog {
         loggy.info('Returning user logged in anonymously: $uid');
         return right(user);
       } else {
+        final userID = generateRandomId();
         final newUser = User(
           uid: uid,
           createdAt: DateTime.now(),
@@ -43,7 +43,7 @@ class UserLoggedAnonymouslyUseCase with MyLog {
           micropermission: false,
         );
 
-        final user = await _userRepository.createUser(newUser);
+        final user = await userRepo.createUser(newUser);
         loggy.info('New user logged in anonymously and created: $uid');
         return right(user);
       }
