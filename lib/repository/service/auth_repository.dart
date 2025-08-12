@@ -6,7 +6,7 @@ abstract class IAuthRepository {
   String get email;
   String get displayName;
   bool get isUserConnected;
-  Stream<bool> isUserConnectedStream();
+  Stream<String> get uidStream;
   Stream<User?> get userAuthStream;
   bool get isAnonymous;
 
@@ -39,8 +39,8 @@ class AuthRepository with MyLog implements IAuthRepository {
   bool get isUserConnected => _auth.currentUser != null;
 
   @override
-  Stream<bool> isUserConnectedStream() =>
-      _auth.authStateChanges().map<bool>((event) => event != null);
+  Stream<String> get uidStream =>
+      _auth.authStateChanges().map<String>((event) => event?.uid ?? '');
 
   @override
   Stream<User?> get userAuthStream => _auth.authStateChanges();

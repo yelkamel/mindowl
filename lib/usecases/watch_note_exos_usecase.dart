@@ -6,11 +6,11 @@ class WatchNoteExosUseCase with MyLog {
   WatchNoteExosUseCase();
 
   Stream<List<Exo>> call({
-    required String uid,
     required String noteId,
     int? limit,
   }) {
     try {
+      final uid = authRepo.uid;
       loggy.info('Watching exos for note: $noteId${limit != null ? ' with limit: $limit' : ''}');
       return noteRepo.watchNoteExos(uid, noteId, limit: limit);
     } catch (e) {

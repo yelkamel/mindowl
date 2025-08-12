@@ -22,6 +22,8 @@ class UserLoggedAnonymouslyUseCase with MyLog {
         return left(UseCaseFailure('Authentication failed: Invalid user ID'));
       }
 
+      loggy.info('UserLoggedAnonymouslyUseCase uid: $uid');
+
       final exists = await userRepo.userExists(uid);
 
       if (exists) {

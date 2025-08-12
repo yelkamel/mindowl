@@ -10,9 +10,6 @@ class GroupListeningScreen extends StatefulWidget {
 }
 
 class _GroupListeningScreenState extends State<GroupListeningScreen> {
-  final List<String> _players = ['You', 'Alex', 'Sam'];
-  final List<bool> _playerReady = [true, true, false];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,18 +24,16 @@ class _GroupListeningScreenState extends State<GroupListeningScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            HeroIcon(
-              HeroIcons.userGroup,
-              size: 80,
-              color: Colors.grey,
-            ),
+            HeroIcon(HeroIcons.userGroup, size: 80, color: Colors.grey),
             SizedBox(height: 16),
             Text(
               'Group Listening Screen',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Text('This screen would show synchronized listening for multiple players'),
+            Text(
+              'This screen would show synchronized listening for multiple players',
+            ),
           ],
         ),
       ),

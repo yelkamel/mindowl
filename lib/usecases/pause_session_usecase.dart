@@ -8,11 +8,10 @@ class PauseSessionUseCase with MyLog {
   PauseSessionUseCase();
 
   Future<Either<UseCaseFailure, Session>> call({
-    required String uid,
     required String sessionId,
   }) async {
     try {
-      final session = await sessionRepo.getSession(uid, sessionId);
+      final session = await sessionRepo.getSession(authRepo.uid, sessionId);
       if (session == null) {
         return left(UseCaseFailure('Session not found'));
       }
@@ -21,11 +20,9 @@ class PauseSessionUseCase with MyLog {
         return left(UseCaseFailure('Session is not running'));
       }
 
-      final updatedSession = session.copyWith(
-        status: SessionStatus.paused,
-      );
+      final updatedSession = session.copyWith(status: SessionStatus.paused);
 
-      await sessionRepo.updateSession(uid, updatedSession);
+      await sessionRepo.updateSession(authRepo.uid, updatedSession);
       loggy.info('Session paused: $sessionId');
       return right(updatedSession);
     } catch (e) {

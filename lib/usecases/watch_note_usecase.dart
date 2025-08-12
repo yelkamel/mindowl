@@ -6,10 +6,10 @@ class WatchNoteUseCase with MyLog {
   WatchNoteUseCase();
 
   Stream<Note?> call({
-    required String uid,
     required String noteId,
   }) {
     try {
+      final uid = authRepo.uid;
       loggy.info('Watching note: $noteId');
       return noteRepo.watchNote(uid, noteId);
     } catch (e) {

@@ -6,11 +6,11 @@ class WatchExoAttemptsUseCase with MyLog {
   WatchExoAttemptsUseCase();
 
   Stream<List<Attempt>> call({
-    required String uid,
     required String noteId,
     required String exoId,
   }) {
     try {
+      final uid = authRepo.uid;
       loggy.info('Watching attempts for exo: $exoId in note: $noteId');
       return attemptRepo.watchExoAttempts(uid, noteId, exoId);
     } catch (e) {

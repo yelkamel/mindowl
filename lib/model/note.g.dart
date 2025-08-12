@@ -8,8 +8,8 @@ part of 'note.dart';
 
 _Note _$NoteFromJson(Map<String, dynamic> json) => _Note(
   id: json['id'] as String,
-  title: json['title'] as String,
-  summary: json['summary'] as String?,
+  title: json['title'] as String? ?? '',
+  summary: json['summary'] as String? ?? '',
   createdAt: const TimestampDateTimeConverter().fromJson(json['createdAt']),
   updatedAt: const TimestampDateTimeConverter().fromJson(json['updatedAt']),
   lastReviewed: const NullableTimestampDateTimeConverter().fromJson(

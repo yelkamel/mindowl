@@ -10,7 +10,6 @@ class PrepareQuizSessionUseCase with MyLog {
   PrepareQuizSessionUseCase();
 
   Future<Either<UseCaseFailure, Session>> call({
-    required String uid,
     required String noteId,
     required int count,
     String? title,
@@ -28,10 +27,16 @@ class PrepareQuizSessionUseCase with MyLog {
         currentQuestionIndex: 0,
       );
 
-      final createdSession = await sessionRepo.createSession(session);
+      final createdSession = await sessionRepo.createSession(
+        authRepo.uid,
+        session,
+      );
+      loggy.info('Quiz session prepared: ${createdSession.id}');
 
-      final noteExos = await noteRepo.watchNoteExos(uid, noteId, limit: count).first;
-      
+      final noteExos = await noteRepo
+          .watchNoteExos(authRepo.uid, noteId, limit: count)
+          .first;
+
       final selectedExos = noteExos.take(count).toList();
 
       for (final exo in selectedExos) {
@@ -45,7 +50,7 @@ class PrepareQuizSessionUseCase with MyLog {
           status: SessionExoStatus.pending,
           snapshotLite: exo.content,
         );
-        await sessionExoRepo.createSessionExo(uid, sessionExo);
+        await sessionExoRepo.createSessionExo(authRepo.uid, sessionExo);
       }
 
       loggy.info('Quiz session prepared with $count exercises: $sessionId');

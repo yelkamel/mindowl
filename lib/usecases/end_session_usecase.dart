@@ -8,10 +8,10 @@ class EndSessionUseCase with MyLog {
   EndSessionUseCase();
 
   Future<Either<UseCaseFailure, Session>> call({
-    required String uid,
     required String sessionId,
   }) async {
     try {
+      final uid = authRepo.uid;
       final session = await sessionRepo.getSession(uid, sessionId);
       if (session == null) {
         return left(UseCaseFailure('Session not found'));

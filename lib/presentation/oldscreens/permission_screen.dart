@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class PermissionScreen extends StatefulWidget {
   const PermissionScreen({super.key});
@@ -79,19 +80,37 @@ class _PermissionScreenState extends State<PermissionScreen>
     super.dispose();
   }
 
-  void _requestPermission() async {
+  Future<bool> _requestPermission() async {
     setState(() {
       _isUnlocking = true;
     });
     
     await _unlockAnimationController.forward();
     
-    // Simulate permission request delay
-    await Future.delayed(const Duration(milliseconds: 500));
-    
-    // Navigate to home screen
-    if (mounted) {
-      context.go('/home');
+    try {
+      final status = await Permission.microphone.request();
+      
+      if (mounted) {
+        if (status == PermissionStatus.granted) {
+          context.go('/home');
+          return true;
+        } else {
+          setState(() {
+            _isUnlocking = false;
+          });
+          _unlockAnimationController.reset();
+          return false;
+        }
+      }
+      return false;
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isUnlocking = false;
+        });
+        _unlockAnimationController.reset();
+      }
+      return false;
     }
   }
 

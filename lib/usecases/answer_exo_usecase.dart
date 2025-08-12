@@ -10,7 +10,6 @@ class AnswerExoUseCase with MyLog {
   AnswerExoUseCase();
 
   Future<Either<UseCaseFailure, Attempt>> call({
-    required String uid,
     required String sessionId,
     required String sessionExoId,
     required String noteId,
@@ -20,6 +19,7 @@ class AnswerExoUseCase with MyLog {
     required int timeToAnswerMs,
   }) async {
     try {
+      final uid = authRepo.uid;
       final attemptId = generateRandomId();
       final attempt = Attempt(
         id: attemptId,
@@ -33,6 +33,7 @@ class AnswerExoUseCase with MyLog {
       );
 
       final createdAttempt = await attemptRepo.createAttempt(uid, attempt);
+      loggy.info('Answer recorded: $sessionId');
 
       final sessionExo = await sessionExoRepo.getSessionExo(uid, sessionId, sessionExoId);
       if (sessionExo != null) {

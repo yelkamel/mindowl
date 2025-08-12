@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Note {
 
- String get id; String get title; String? get summary;@TimestampDateTimeConverter() DateTime get createdAt;@TimestampDateTimeConverter() DateTime get updatedAt;@NullableTimestampDateTimeConverter() DateTime? get lastReviewed; List<String> get topics; String get primaryTheme; bool get isFavorite; String get markdownContent; List<String> get relatedNoteIds; List<String> get sessionIds; List<String> get exoIds;
+ String get id; String get title; String get summary;@TimestampDateTimeConverter() DateTime get createdAt;@TimestampDateTimeConverter() DateTime get updatedAt;@NullableTimestampDateTimeConverter() DateTime? get lastReviewed; List<String> get topics; String get primaryTheme; bool get isFavorite; String get markdownContent; List<String> get relatedNoteIds; List<String> get sessionIds; List<String> get exoIds;
 /// Create a copy of Note
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $NoteCopyWith<$Res>  {
   factory $NoteCopyWith(Note value, $Res Function(Note) _then) = _$NoteCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String? summary,@TimestampDateTimeConverter() DateTime createdAt,@TimestampDateTimeConverter() DateTime updatedAt,@NullableTimestampDateTimeConverter() DateTime? lastReviewed, List<String> topics, String primaryTheme, bool isFavorite, String markdownContent, List<String> relatedNoteIds, List<String> sessionIds, List<String> exoIds
+ String id, String title, String summary,@TimestampDateTimeConverter() DateTime createdAt,@TimestampDateTimeConverter() DateTime updatedAt,@NullableTimestampDateTimeConverter() DateTime? lastReviewed, List<String> topics, String primaryTheme, bool isFavorite, String markdownContent, List<String> relatedNoteIds, List<String> sessionIds, List<String> exoIds
 });
 
 
@@ -65,12 +65,12 @@ class _$NoteCopyWithImpl<$Res>
 
 /// Create a copy of Note
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? summary = freezed,Object? createdAt = null,Object? updatedAt = null,Object? lastReviewed = freezed,Object? topics = null,Object? primaryTheme = null,Object? isFavorite = null,Object? markdownContent = null,Object? relatedNoteIds = null,Object? sessionIds = null,Object? exoIds = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? summary = null,Object? createdAt = null,Object? updatedAt = null,Object? lastReviewed = freezed,Object? topics = null,Object? primaryTheme = null,Object? isFavorite = null,Object? markdownContent = null,Object? relatedNoteIds = null,Object? sessionIds = null,Object? exoIds = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
+as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,lastReviewed: freezed == lastReviewed ? _self.lastReviewed : lastReviewed // ignore: cast_nullable_to_non_nullable
 as DateTime?,topics: null == topics ? _self.topics : topics // ignore: cast_nullable_to_non_nullable
@@ -162,7 +162,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String? summary, @TimestampDateTimeConverter()  DateTime createdAt, @TimestampDateTimeConverter()  DateTime updatedAt, @NullableTimestampDateTimeConverter()  DateTime? lastReviewed,  List<String> topics,  String primaryTheme,  bool isFavorite,  String markdownContent,  List<String> relatedNoteIds,  List<String> sessionIds,  List<String> exoIds)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String summary, @TimestampDateTimeConverter()  DateTime createdAt, @TimestampDateTimeConverter()  DateTime updatedAt, @NullableTimestampDateTimeConverter()  DateTime? lastReviewed,  List<String> topics,  String primaryTheme,  bool isFavorite,  String markdownContent,  List<String> relatedNoteIds,  List<String> sessionIds,  List<String> exoIds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Note() when $default != null:
 return $default(_that.id,_that.title,_that.summary,_that.createdAt,_that.updatedAt,_that.lastReviewed,_that.topics,_that.primaryTheme,_that.isFavorite,_that.markdownContent,_that.relatedNoteIds,_that.sessionIds,_that.exoIds);case _:
@@ -183,7 +183,7 @@ return $default(_that.id,_that.title,_that.summary,_that.createdAt,_that.updated
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String? summary, @TimestampDateTimeConverter()  DateTime createdAt, @TimestampDateTimeConverter()  DateTime updatedAt, @NullableTimestampDateTimeConverter()  DateTime? lastReviewed,  List<String> topics,  String primaryTheme,  bool isFavorite,  String markdownContent,  List<String> relatedNoteIds,  List<String> sessionIds,  List<String> exoIds)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String summary, @TimestampDateTimeConverter()  DateTime createdAt, @TimestampDateTimeConverter()  DateTime updatedAt, @NullableTimestampDateTimeConverter()  DateTime? lastReviewed,  List<String> topics,  String primaryTheme,  bool isFavorite,  String markdownContent,  List<String> relatedNoteIds,  List<String> sessionIds,  List<String> exoIds)  $default,) {final _that = this;
 switch (_that) {
 case _Note():
 return $default(_that.id,_that.title,_that.summary,_that.createdAt,_that.updatedAt,_that.lastReviewed,_that.topics,_that.primaryTheme,_that.isFavorite,_that.markdownContent,_that.relatedNoteIds,_that.sessionIds,_that.exoIds);}
@@ -200,7 +200,7 @@ return $default(_that.id,_that.title,_that.summary,_that.createdAt,_that.updated
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String? summary, @TimestampDateTimeConverter()  DateTime createdAt, @TimestampDateTimeConverter()  DateTime updatedAt, @NullableTimestampDateTimeConverter()  DateTime? lastReviewed,  List<String> topics,  String primaryTheme,  bool isFavorite,  String markdownContent,  List<String> relatedNoteIds,  List<String> sessionIds,  List<String> exoIds)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String summary, @TimestampDateTimeConverter()  DateTime createdAt, @TimestampDateTimeConverter()  DateTime updatedAt, @NullableTimestampDateTimeConverter()  DateTime? lastReviewed,  List<String> topics,  String primaryTheme,  bool isFavorite,  String markdownContent,  List<String> relatedNoteIds,  List<String> sessionIds,  List<String> exoIds)?  $default,) {final _that = this;
 switch (_that) {
 case _Note() when $default != null:
 return $default(_that.id,_that.title,_that.summary,_that.createdAt,_that.updatedAt,_that.lastReviewed,_that.topics,_that.primaryTheme,_that.isFavorite,_that.markdownContent,_that.relatedNoteIds,_that.sessionIds,_that.exoIds);case _:
@@ -215,12 +215,12 @@ return $default(_that.id,_that.title,_that.summary,_that.createdAt,_that.updated
 @JsonSerializable()
 
 class _Note extends Note {
-  const _Note({required this.id, required this.title, this.summary, @TimestampDateTimeConverter() required this.createdAt, @TimestampDateTimeConverter() required this.updatedAt, @NullableTimestampDateTimeConverter() this.lastReviewed, required final  List<String> topics, required this.primaryTheme, this.isFavorite = false, required this.markdownContent, final  List<String> relatedNoteIds = const <String>[], final  List<String> sessionIds = const <String>[], final  List<String> exoIds = const <String>[]}): _topics = topics,_relatedNoteIds = relatedNoteIds,_sessionIds = sessionIds,_exoIds = exoIds,super._();
+  const _Note({required this.id, this.title = '', this.summary = '', @TimestampDateTimeConverter() required this.createdAt, @TimestampDateTimeConverter() required this.updatedAt, @NullableTimestampDateTimeConverter() this.lastReviewed, required final  List<String> topics, required this.primaryTheme, this.isFavorite = false, required this.markdownContent, final  List<String> relatedNoteIds = const <String>[], final  List<String> sessionIds = const <String>[], final  List<String> exoIds = const <String>[]}): _topics = topics,_relatedNoteIds = relatedNoteIds,_sessionIds = sessionIds,_exoIds = exoIds,super._();
   factory _Note.fromJson(Map<String, dynamic> json) => _$NoteFromJson(json);
 
 @override final  String id;
-@override final  String title;
-@override final  String? summary;
+@override@JsonKey() final  String title;
+@override@JsonKey() final  String summary;
 @override@TimestampDateTimeConverter() final  DateTime createdAt;
 @override@TimestampDateTimeConverter() final  DateTime updatedAt;
 @override@NullableTimestampDateTimeConverter() final  DateTime? lastReviewed;
@@ -289,7 +289,7 @@ abstract mixin class _$NoteCopyWith<$Res> implements $NoteCopyWith<$Res> {
   factory _$NoteCopyWith(_Note value, $Res Function(_Note) _then) = __$NoteCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String? summary,@TimestampDateTimeConverter() DateTime createdAt,@TimestampDateTimeConverter() DateTime updatedAt,@NullableTimestampDateTimeConverter() DateTime? lastReviewed, List<String> topics, String primaryTheme, bool isFavorite, String markdownContent, List<String> relatedNoteIds, List<String> sessionIds, List<String> exoIds
+ String id, String title, String summary,@TimestampDateTimeConverter() DateTime createdAt,@TimestampDateTimeConverter() DateTime updatedAt,@NullableTimestampDateTimeConverter() DateTime? lastReviewed, List<String> topics, String primaryTheme, bool isFavorite, String markdownContent, List<String> relatedNoteIds, List<String> sessionIds, List<String> exoIds
 });
 
 
@@ -306,12 +306,12 @@ class __$NoteCopyWithImpl<$Res>
 
 /// Create a copy of Note
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? summary = freezed,Object? createdAt = null,Object? updatedAt = null,Object? lastReviewed = freezed,Object? topics = null,Object? primaryTheme = null,Object? isFavorite = null,Object? markdownContent = null,Object? relatedNoteIds = null,Object? sessionIds = null,Object? exoIds = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? summary = null,Object? createdAt = null,Object? updatedAt = null,Object? lastReviewed = freezed,Object? topics = null,Object? primaryTheme = null,Object? isFavorite = null,Object? markdownContent = null,Object? relatedNoteIds = null,Object? sessionIds = null,Object? exoIds = null,}) {
   return _then(_Note(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
+as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,lastReviewed: freezed == lastReviewed ? _self.lastReviewed : lastReviewed // ignore: cast_nullable_to_non_nullable
 as DateTime?,topics: null == topics ? _self._topics : topics // ignore: cast_nullable_to_non_nullable

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:mindowl/presentation/provider/user_provider.dart';
 import 'package:mindowl/presentation/screen/home/molecule/home_header.dart';
 import 'package:mindowl/presentation/screen/home/molecule/hero_learning_card.dart';
 import 'package:mindowl/presentation/screen/home/molecule/progress_ring.dart';
@@ -8,11 +10,11 @@ import 'package:mindowl/presentation/screen/home/molecule/stats_grid.dart';
 import 'package:mindowl/presentation/screen/home/molecule/mode_cards_section.dart';
 import 'package:mindowl/presentation/screen/home/molecule/knowledge_vault_section.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Mock data - will be replaced by data provider later
     const currentStreak = 7;
     const currentLevel = 3;
@@ -34,15 +36,13 @@ class HomeScreen extends StatelessWidget {
                   streakDays: currentStreak,
                   onProfileTap: () => context.push('/profile'),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
-                HeroLearningCard(
-                  onTap: () => context.push('/mode-selection'),
-                ),
-                
+
+                HeroLearningCard(onTap: () => context.push('/mode-selection')),
+
                 const SizedBox(height: 32),
-                
+
                 Center(
                   child: ProgressRing(
                     currentLevel: currentLevel,
@@ -50,24 +50,24 @@ class HomeScreen extends StatelessWidget {
                     maxXP: maxXP,
                   ),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 StatsGrid(
                   todaySessions: todaySessions,
                   totalXP: totalXP,
                   accuracyPercent: (accuracy * 100).toInt(),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 ModeCardsSection(
                   onSoloModeTap: () => context.push('/mode-selection'),
                   onBattleModeTap: () => context.push('/mode-selection'),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 KnowledgeVaultSection(
                   onViewVaultTap: () => context.push('/knowledge-vault'),
                 ),
@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      
+
       // Floating Action Button for instant start
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/mode-selection'),

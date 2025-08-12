@@ -3,7 +3,7 @@ import 'package:mindowl/model/session.dart';
 import 'package:mindowl/utils/log.dart';
 
 abstract class ISessionRepository {
-  Future<Session> createSession(Session session);
+  Future<Session> createSession(String uid, Session session);
   Future<Session?> getSession(String uid, String sessionId);
   Future<void> updateSession(String uid, Session session);
   Future<void> deleteSession(String uid, String sessionId);
@@ -12,11 +12,11 @@ abstract class ISessionRepository {
 
 class SessionRepository with MyLog implements ISessionRepository {
   @override
-  Future<Session> createSession(Session session) async {
+  Future<Session> createSession(String uid, Session session) async {
     try {
       final docRef = FirebaseFirestore.instance
           .collection('users')
-          .doc(session.id.split('_').first)
+          .doc(uid)
           .collection('sessions')
           .doc(session.id);
       await docRef.set(session.toJson());

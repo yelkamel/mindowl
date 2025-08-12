@@ -8,6 +8,8 @@ abstract class IUserRepository {
   Future<void> updateUser(User user);
   Future<void> deleteUser(String uid);
   Future<bool> userExists(String uid);
+
+  Stream<User?> streamUser(String uid);
 }
 
 class UserRepository with MyLog implements IUserRepository {
@@ -65,5 +67,14 @@ class UserRepository with MyLog implements IUserRepository {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  @override
+  Stream<User?> streamUser(String uid) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map((event) => User.fromJson(event.data()!));
   }
 }

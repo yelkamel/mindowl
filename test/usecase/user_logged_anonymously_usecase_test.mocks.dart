@@ -73,6 +73,14 @@ class MockIAuthRepository extends _i1.Mock implements _i2.IAuthRepository {
           as bool);
 
   @override
+  _i4.Stream<String> get uidStream =>
+      (super.noSuchMethod(
+            Invocation.getter(#uidStream),
+            returnValue: _i4.Stream<String>.empty(),
+          )
+          as _i4.Stream<String>);
+
+  @override
   _i4.Stream<_i5.User?> get userAuthStream =>
       (super.noSuchMethod(
             Invocation.getter(#userAuthStream),
@@ -84,14 +92,6 @@ class MockIAuthRepository extends _i1.Mock implements _i2.IAuthRepository {
   bool get isAnonymous =>
       (super.noSuchMethod(Invocation.getter(#isAnonymous), returnValue: false)
           as bool);
-
-  @override
-  _i4.Stream<bool> isUserConnectedStream() =>
-      (super.noSuchMethod(
-            Invocation.method(#isUserConnectedStream, []),
-            returnValue: _i4.Stream<bool>.empty(),
-          )
-          as _i4.Stream<bool>);
 
   @override
   _i4.Future<void> signOut() =>
@@ -250,4 +250,12 @@ class MockIUserRepository extends _i1.Mock implements _i6.IUserRepository {
             returnValue: _i4.Future<bool>.value(false),
           )
           as _i4.Future<bool>);
+
+  @override
+  _i4.Stream<_i7.User?> streamUser(String? uid) =>
+      (super.noSuchMethod(
+            Invocation.method(#streamUser, [uid]),
+            returnValue: _i4.Stream<_i7.User?>.empty(),
+          )
+          as _i4.Stream<_i7.User?>);
 }

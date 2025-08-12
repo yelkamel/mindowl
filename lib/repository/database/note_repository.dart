@@ -11,7 +11,12 @@ abstract class INoteRepository {
   Stream<Note?> watchNote(String uid, String noteId);
   Future<List<Note>> getAllNotes(String uid);
   Stream<List<Exo>> watchNoteExos(String uid, String noteId, {int? limit});
-  Future<List<Exo>> getNewExosAfter(String uid, String noteId, DateTime sinceCreatedAt, {int limit = 10});
+  Future<List<Exo>> getNewExosAfter(
+    String uid,
+    String noteId,
+    DateTime sinceCreatedAt, {
+    int limit = 10,
+  });
 }
 
 class NoteRepository with MyLog implements INoteRepository {
@@ -114,21 +119,28 @@ class NoteRepository with MyLog implements INoteRepository {
           .doc(noteId)
           .collection('exos')
           .orderBy('createdAt', descending: true);
-      
+
       if (limit != null) {
         query = query.limit(limit);
       }
-      
-      return query.snapshots()
-          .map((snapshot) => 
-              snapshot.docs.map((doc) => Exo.fromJson(doc.data())).toList());
+
+      return query.snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => Exo.fromJson(doc.data() as Map<String, dynamic>))
+            .toList(),
+      );
     } catch (e) {
       throw Exception(e);
     }
   }
 
   @override
-  Future<List<Exo>> getNewExosAfter(String uid, String noteId, DateTime sinceCreatedAt, {int limit = 10}) async {
+  Future<List<Exo>> getNewExosAfter(
+    String uid,
+    String noteId,
+    DateTime sinceCreatedAt, {
+    int limit = 10,
+  }) async {
     try {
       final snapshot = await FirebaseFirestore.instance
           .collection('users')

@@ -9,13 +9,13 @@ class PushTranscriptChunkUseCase with MyLog {
   PushTranscriptChunkUseCase();
 
   Future<Either<UseCaseFailure, Transcript>> call({
-    required String uid,
     required String sessionId,
     required double startSec,
     required double endSec,
     required String text,
   }) async {
     try {
+      final uid = authRepo.uid;
       final chunkId = generateRandomId();
       final transcript = Transcript(
         id: chunkId,
@@ -27,8 +27,9 @@ class PushTranscriptChunkUseCase with MyLog {
         createdAt: DateTime.now(),
       );
 
+      // Write to chunks collection - backend will handle note creation/update and exo generation
       final createdTranscript = await transcriptRepo.createTranscript(uid, transcript);
-      loggy.info('Transcript chunk created: $chunkId for session: $sessionId');
+      loggy.info('Transcript chunk pushed: $sessionId');
       return right(createdTranscript);
     } catch (e) {
       loggy.error('Failed to push transcript chunk: $e');

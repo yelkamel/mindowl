@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mindowl/enum/context_type.dart';
+import 'package:mindowl/model/session.dart';
+import 'package:mindowl/model/session_exo.dart';
 
 part 'listening_screen_state.freezed.dart';
 
@@ -14,6 +16,10 @@ sealed class ListeningScreenState with _$ListeningScreenState {
     @Default(false) bool isSessionEnded,
     @Default([]) List<String> textChunks,
     @Default('') String latestTextChunk,
+    Session? currentSession,
+    @Default([]) List<SessionExo> sessionExos,
+    @Default(false) bool isLoading,
+    String? error,
   }) = _ListeningScreenState;
 
   const ListeningScreenState._();

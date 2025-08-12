@@ -15,12 +15,12 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
   late AnimationController _scoreController;
   late AnimationController _celebrationController;
   late AnimationController _badgeController;
-  
+
   late Animation<double> _scoreAnimation;
   late Animation<double> _celebrationAnimation;
   late Animation<double> _badgeScaleAnimation;
   late Animation<double> _badgeRotationAnimation;
-  
+
   // Mock session data
   final int _totalQuestions = 8;
   final int _correctAnswers = 6;
@@ -31,62 +31,49 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
   final String _newBadgeName = "Speed Demon";
   final String _newBadgeIcon = "⚡";
   final double _averageResponseTime = 12.5; // seconds
-  final String _topicName = "AI Fundamentals";
 
   @override
   void initState() {
     super.initState();
-    
+
     // Score count-up animation
     _scoreController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
-    
+
     // Celebration particles animation
     _celebrationController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    
+
     // Badge unlock animation
     _badgeController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
-    
-    _scoreAnimation = Tween<double>(
-      begin: 0.0,
-      end: _correctAnswers / _totalQuestions,
-    ).animate(CurvedAnimation(
-      parent: _scoreController,
-      curve: Curves.easeOutCubic,
-    ));
-    
-    _celebrationAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _celebrationController,
-      curve: Curves.easeOut,
-    ));
-    
-    _badgeScaleAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _badgeController,
-      curve: Curves.elasticOut,
-    ));
-    
-    _badgeRotationAnimation = Tween<double>(
-      begin: 0.0,
-      end: 0.1,
-    ).animate(CurvedAnimation(
-      parent: _badgeController,
-      curve: Curves.easeInOut,
-    ));
-    
+
+    _scoreAnimation =
+        Tween<double>(
+          begin: 0.0,
+          end: _correctAnswers / _totalQuestions,
+        ).animate(
+          CurvedAnimation(parent: _scoreController, curve: Curves.easeOutCubic),
+        );
+
+    _celebrationAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _celebrationController, curve: Curves.easeOut),
+    );
+
+    _badgeScaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _badgeController, curve: Curves.elasticOut),
+    );
+
+    _badgeRotationAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
+      CurvedAnimation(parent: _badgeController, curve: Curves.easeInOut),
+    );
+
     // Start animations
     _startAnimations();
   }
@@ -102,10 +89,10 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
   void _startAnimations() async {
     await Future.delayed(const Duration(milliseconds: 500));
     _scoreController.forward();
-    
+
     await Future.delayed(const Duration(milliseconds: 1000));
     _celebrationController.forward();
-    
+
     if (_hasNewBadge) {
       await Future.delayed(const Duration(milliseconds: 500));
       _badgeController.forward();
@@ -113,7 +100,7 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
   }
 
   double get _accuracy => _correctAnswers / _totalQuestions;
-  
+
   String get _formattedTime {
     final minutes = (_sessionTime ~/ 60).toString().padLeft(2, '0');
     final seconds = (_sessionTime % 60).toString().padLeft(2, '0');
@@ -154,7 +141,7 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  
+
                   // Header
                   Text(
                     'Session Complete!',
@@ -163,46 +150,48 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 8),
-                  
+
                   Text(
                     _performanceMessage,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withOpacity(0.8),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 40),
-                  
+
                   // Hero Score Circle
                   _buildHeroScore(),
-                  
+
                   const SizedBox(height: 40),
-                  
+
                   // New Badge Notification
                   if (_hasNewBadge) _buildBadgeUnlock(),
-                  
+
                   if (_hasNewBadge) const SizedBox(height: 32),
-                  
+
                   // Performance Breakdown
                   _buildPerformanceBreakdown(),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Progress Context
                   _buildProgressContext(),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Action Buttons
                   _buildActionButtons(),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Share Button
                   _buildShareButton(),
-                  
+
                   const SizedBox(height: 20),
                 ],
               ),
@@ -241,7 +230,7 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
                   ),
                 );
               }),
-            
+
             // Main score circle
             Container(
               width: 200,
@@ -258,7 +247,7 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
                       Theme.of(context).colorScheme.outline,
                     ),
                   ),
-                  
+
                   // Animated progress
                   CircularProgressIndicator(
                     value: _scoreAnimation.value,
@@ -266,23 +255,26 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
                     backgroundColor: Colors.transparent,
                     valueColor: AlwaysStoppedAnimation<Color>(_scoreColor),
                   ),
-                  
+
                   // Score text
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         '${(_scoreAnimation.value * 100).toInt()}%',
-                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          fontSize: 48,
-                          fontWeight: FontWeight.w900,
-                          color: _scoreColor,
-                        ),
+                        style: Theme.of(context).textTheme.headlineLarge
+                            ?.copyWith(
+                              fontSize: 48,
+                              fontWeight: FontWeight.w900,
+                              color: _scoreColor,
+                            ),
                       ),
                       Text(
                         '${(_scoreAnimation.value * _totalQuestions).toInt()}/$_totalQuestions correct',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withOpacity(0.7),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -317,7 +309,9 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.4),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.secondary.withOpacity(0.4),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -376,24 +370,60 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
         children: [
           Text(
             'Session Breakdown',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildStatItem('XP Earned', '+$_xpEarned', HeroIcons.star, _scoreColor)),
-              Container(width: 1, height: 40, color: Theme.of(context).colorScheme.outline),
-              Expanded(child: _buildStatItem('Time', _formattedTime, HeroIcons.clock, Theme.of(context).colorScheme.primary)),
+              Expanded(
+                child: _buildStatItem(
+                  'XP Earned',
+                  '+$_xpEarned',
+                  HeroIcons.star,
+                  _scoreColor,
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 40,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              Expanded(
+                child: _buildStatItem(
+                  'Time',
+                  _formattedTime,
+                  HeroIcons.clock,
+                  Theme.of(context).colorScheme.primary,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildStatItem('Avg Speed', '${_averageResponseTime.toInt()}s', HeroIcons.bolt, Theme.of(context).colorScheme.secondary)),
-              Container(width: 1, height: 40, color: Theme.of(context).colorScheme.outline),
-              Expanded(child: _buildStatItem('Streak', '$_streakDays days', HeroIcons.fire, Colors.orange)),
+              Expanded(
+                child: _buildStatItem(
+                  'Avg Speed',
+                  '${_averageResponseTime.toInt()}s',
+                  HeroIcons.bolt,
+                  Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 40,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              Expanded(
+                child: _buildStatItem(
+                  'Streak',
+                  '$_streakDays days',
+                  HeroIcons.fire,
+                  Colors.orange,
+                ),
+              ),
             ],
           ),
         ],
@@ -401,7 +431,12 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
     );
   }
 
-  Widget _buildStatItem(String label, String value, HeroIcons icon, Color color) {
+  Widget _buildStatItem(
+    String label,
+    String value,
+    HeroIcons icon,
+    Color color,
+  ) {
     return Column(
       children: [
         HeroIcon(icon, size: 24, color: color),
@@ -469,7 +504,9 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
               backgroundColor: Theme.of(context).colorScheme.secondary,
               foregroundColor: Theme.of(context).colorScheme.onSecondary,
               elevation: 8,
-              shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.3),
+              shadowColor: Theme.of(
+                context,
+              ).colorScheme.secondary.withOpacity(0.3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -477,16 +514,13 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
             icon: const HeroIcon(HeroIcons.play, size: 20),
             label: const Text(
               'Ready for Another?',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 16,
-              ),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
           ),
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         // Save to Knowledge Vault
         SizedBox(
           width: double.infinity,
@@ -494,13 +528,13 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
           child: OutlinedButton.icon(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Study notes saved to your collection!')),
+                const SnackBar(
+                  content: Text('Study notes saved to your collection!'),
+                ),
               );
             },
             style: OutlinedButton.styleFrom(
-              side: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              side: BorderSide(color: Theme.of(context).colorScheme.primary),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -519,9 +553,9 @@ class _SessionResultsScreenState extends State<SessionResultsScreen>
             ),
           ),
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         // Return Home
         TextButton(
           onPressed: () => context.go('/home'),

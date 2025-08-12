@@ -6,10 +6,10 @@ class WatchSessionExosUseCase with MyLog {
   WatchSessionExosUseCase();
 
   Stream<List<SessionExo>> call({
-    required String uid,
     required String sessionId,
   }) {
     try {
+      final uid = authRepo.uid;
       loggy.info('Watching session exos for session: $sessionId');
       return sessionExoRepo.watchSessionExos(uid, sessionId);
     } catch (e) {

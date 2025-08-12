@@ -38,7 +38,7 @@ final class HomeDataProviderProvider
   }
 }
 
-String _$homeDataProviderHash() => r'0d0dd311b8feb6eb072bbf15360c78c72d3a34c4';
+String _$homeDataProviderHash() => r'a3326add89e3ea971403e2bee2330ce515ab8d9c';
 
 abstract class _$HomeDataProvider extends $Notifier<HomeData> {
   HomeData build();

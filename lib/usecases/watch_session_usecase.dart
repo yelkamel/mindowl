@@ -6,10 +6,10 @@ class WatchSessionUseCase with MyLog {
   WatchSessionUseCase();
 
   Stream<Session?> call({
-    required String uid,
     required String sessionId,
   }) {
     try {
+      final uid = authRepo.uid;
       loggy.info('Watching session: $sessionId');
       return sessionRepo.watchSession(uid, sessionId);
     } catch (e) {

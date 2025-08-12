@@ -9,23 +9,24 @@ class CreateSessionUseCase with MyLog {
   CreateSessionUseCase();
 
   Future<Either<UseCaseFailure, Session>> call({
-    required String uid,
     required SessionType type,
-    required String noteId,
-    String? title,
+    String? noteId, // Now optional - backend creates note on first chunk
   }) async {
     try {
       final sessionId = generateRandomId();
       final session = Session(
         id: sessionId,
-        noteId: noteId,
-        title: title ?? 'Session ${type.name}',
+        noteId: noteId ?? '', // Empty noteId - backend will set it on first chunk
+        title: 'Session ${DateTime.now().toIso8601String()}',
         type: type,
         status: SessionStatus.idle,
         createdAt: DateTime.now(),
       );
 
-      final createdSession = await sessionRepo.createSession(session);
+      final createdSession = await sessionRepo.createSession(
+        authRepo.uid,
+        session,
+      );
       loggy.info('Session created: ${createdSession.id}');
       return right(createdSession);
     } catch (e) {

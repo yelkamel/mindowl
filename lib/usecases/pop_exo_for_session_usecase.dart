@@ -1,5 +1,4 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:layou_tools/layou_tools.dart';
 import 'package:mindowl/model/session_exo.dart';
 import 'package:mindowl/repository/injection.dart';
 import 'package:mindowl/usecases/failure.dart';
@@ -9,54 +8,32 @@ class PopExoForSessionUseCase with MyLog {
   PopExoForSessionUseCase();
 
   Future<Either<UseCaseFailure, SessionExo?>> call({
-    required String uid,
     required String sessionId,
   }) async {
     try {
-      final session = await sessionRepo.getSession(uid, sessionId);
-      if (session == null) {
-        return left(UseCaseFailure('Session not found'));
-      }
-
-      final sinceCreatedAt = session.lastSeenExoCreatedAt ?? session.createdAt;
-      
-      final newExos = await noteRepo.getNewExosAfter(
-        uid, 
-        session.noteId, 
-        sinceCreatedAt,
-        limit: 1,
+      // Backend automatically creates exos, just fetch the next pending one
+      final sessionExos = await sessionExoRepo.getSessionExos(
+        authRepo.uid,
+        sessionId,
       );
 
-      if (newExos.isEmpty) {
-        loggy.info('No new exos found for session: $sessionId');
+      // Find the first pending exo
+      final pendingExos = sessionExos
+          .where((exo) => exo.status == SessionExoStatus.pending)
+          .toList();
+
+      if (pendingExos.isEmpty) {
+        loggy.info('No pending exos found for session: $sessionId');
         return right(null);
       }
 
-      final exo = newExos.first;
-      final sessionExoId = generateRandomId();
-      
-      final sessionExo = SessionExo(
-        id: sessionExoId,
-        sessionId: sessionId,
-        noteId: session.noteId,
-        exoId: exo.id,
-        spawnedAt: DateTime.now(),
-        status: SessionExoStatus.pending,
-        snapshotLite: exo.content,
-      );
-
-      final createdSessionExo = await sessionExoRepo.createSessionExo(uid, sessionExo);
-
-      final updatedSession = session.copyWith(
-        lastSeenExoCreatedAt: exo.createdAt,
-      );
-      await sessionRepo.updateSession(uid, updatedSession);
-
-      loggy.info('Exo attached to session: ${sessionExo.id}');
-      return right(createdSessionExo);
+      // Return the first pending exo
+      final nextExo = pendingExos.first;
+      loggy.info('Found pending exo for session: ${nextExo.id}');
+      return right(nextExo);
     } catch (e) {
-      loggy.error('Failed to pop exo for session: $e');
-      return left(UseCaseFailure('Failed to pop exo for session', e));
+      loggy.error('Failed to get exo for session: $e');
+      return left(UseCaseFailure('Failed to get exo for session', e));
     }
   }
 }

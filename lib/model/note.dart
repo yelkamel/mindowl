@@ -8,8 +8,8 @@ part 'note.g.dart';
 sealed class Note with _$Note {
   const factory Note({
     required String id,
-    required String title,
-    String? summary,
+    @Default('') String title,
+    @Default('') String summary,
     @TimestampDateTimeConverter() required DateTime createdAt,
     @TimestampDateTimeConverter() required DateTime updatedAt,
     @NullableTimestampDateTimeConverter() DateTime? lastReviewed,

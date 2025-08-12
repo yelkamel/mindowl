@@ -8,10 +8,10 @@ class AdvanceQuizCursorUseCase with MyLog {
   AdvanceQuizCursorUseCase();
 
   Future<Either<UseCaseFailure, SessionExo?>> call({
-    required String uid,
     required String sessionId,
   }) async {
     try {
+      final uid = authRepo.uid;
       final sessionExos = await sessionExoRepo.getSessionExos(uid, sessionId);
       
       final pendingExos = sessionExos
